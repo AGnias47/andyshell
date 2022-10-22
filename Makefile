@@ -7,8 +7,8 @@ COMPILER = gcc
 
 all: shell
 
-shell: read.c shell.c
-	$(COMPILER) shell.c read.c -o shell
+shell: read.c shell.c functions.c
+	$(COMPILER) shell.c read.c functions.c -o shell
 
 clean:
 	git clean -dxf

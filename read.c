@@ -42,5 +42,12 @@ char** read_input()
             args = new_buffer;
         }
     }
+    if (i > buffer_size)
+    {
+        char** new_buffer = realloc(args, (buffer_size * sizeof(char*)));
+        buffer_size = buffer_size * 2;
+        args = new_buffer;
+    }
+    args[i] = NULL;
     return args;
 }
