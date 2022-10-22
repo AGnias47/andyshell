@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "functions.h"
 #include "read.h"
+#include "process.h"
+
+
 
 int main()
 {
     char** args = read_input();
-    // status = execute(args);
+    create_subprocess(args);
     free(args);
     return 0;
 }
