@@ -1,5 +1,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "functions.h"
 
@@ -12,6 +14,21 @@
 void create_subprocess(char** args)
 {
     pid_t pid = fork();
-    execvp(args[0], args);
-    wait(NULL);
+    if (pid == -1)
+    {
+        printf("Process creation failed\n");
+    }
+    else if (pid == 0)
+    {
+        int return_value = execvp(args[0], args);
+        if (return_value < 0)
+        {
+            printf("Command execution failed\n");
+        }
+        exit(0);
+    }
+    else 
+    {
+        wait(NULL);
+    }
 }
