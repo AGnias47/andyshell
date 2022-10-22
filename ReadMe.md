@@ -63,7 +63,7 @@ char *read_line(void)
    char *buffer = malloc(sizeof(char) * bufsize);  
    int c;  
    if (!buffer) {    
-      fprintf(stderr, “mysh: allocation error\n");    
+      fprintf(stderr, "mysh: allocation error\n");    
       exit(EXIT_FAILURE);  
    }  
    while (1) { // Read a character    
@@ -93,15 +93,21 @@ char *read_line(void)
 
 ```c
 #define TOK_BUFSIZE 64
-#define TOK_DELIM " \t\r\n\a“
-/**   @brief Split a line into tokens (very naively).   @param line The line.   @return Null-terminated array of tokens. */
+#define TOK_DELIM "\t\r\n\a"
+
+/**
+ * @brief Split a line into tokens (very naively).
+ * @param line The line.
+ * @return Null-terminated array of tokens.
+ **/
+
 char **split_line(char *line)
-{  int bufsize = TOK_BUFSIZE, position = 0;  
+int bufsize = TOK_BUFSIZE, position = 0;  
 char **tokens = malloc(bufsize * sizeof(char*));  
 char *token, **tokens_backup;  
 if (!tokens) 
 {    
-    fprintf(stderr, “mysh: allocation error\n");    
+    fprintf(stderr, "mysh: allocation error\n");    
     exit(EXIT_FAILURE);  
 }  
 token = strtok(line, TOK_DELIM);  
@@ -114,12 +120,12 @@ while (token != NULL) {
         tokens = realloc(tokens, bufsize * sizeof(char*));      
         if (!tokens) {		
             free(tokens_backup);        
-            fprintf(stderr, “mysh: allocation error\n");          
+            fprintf(stderr, "mysh: allocation error\n");          
             exit(EXIT_FAILURE);      
         }    
     }    token = strtok(NULL, TOK_DELIM);  
 }  
 tokens[position] = NULL;  
 return tokens;
-} // split_line()
+// split_line()
 ```

@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "read.h"
 
 char** read_input()
 {
     int buffer_size = 1000;
-    printf("> ");
+    char cwd[buffer_size];
+    printf("%s@%s> ", getenv("USER"), getcwd(cwd, sizeof(cwd)));
     char c;
     char** args = malloc(buffer_size * sizeof(char*));
     for (int i = 0; i < buffer_size; i++)
@@ -39,6 +41,7 @@ char** read_input()
             buffer_size = buffer_size * 2;
             args = new_buffer;
         }
+        free(tstring);
     }
     return args;
 }
