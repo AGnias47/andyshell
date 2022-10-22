@@ -1,18 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "read.h"
 
 char** read_input()
 {
     int buffer_size = 1000;
     printf("> ");
     char c;
-    char** args = (char**)malloc(buffer_size * sizeof(char*));
+    char** args = malloc(buffer_size * sizeof(char*));
+    for (int i = 0; i < buffer_size; i++)
+    {
+        args[i] = (char*)malloc(buffer_size+1);
+    }
     int i = 0;
-    c = getchar();
+    c = 1;
     while ((c != '\n') && (c != EOF))
     {
+        c = getchar();
         char* tstring = malloc(buffer_size * sizeof(char));
         int j = 0;
-        while (c != " ")
+        while ((c != ' ') && (c != '\n') && (c != EOF))
         {
             tstring[j] = c;
             j++;
@@ -22,15 +29,16 @@ char** read_input()
                 buffer_size = buffer_size * 2;
                 tstring = new_buffer;
             }
+            c = getchar();
         }
         args[i] = tstring;
+        i++;
         if (i > buffer_size)
         {
-            char* new_buffer = realloc(args, (char**)malloc(buffer_size * sizeof(char*)));
+            char** new_buffer = realloc(args, (buffer_size * sizeof(char*)));
             buffer_size = buffer_size * 2;
             args = new_buffer;
         }
-        c = getchar();
     }
     return args;
 }

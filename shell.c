@@ -1,26 +1,11 @@
 #include <stdio.h>
-
-#define BUFFER_SIZE 1000
+#include "read.h"
 
 int main()
 {
-    int buffer_size = 1000;
-    printf("> ");
-    char c;
-    char* B = malloc(buffer_size * sizeof(char));
-    int i = 0;
-    c = getchar();
-    while ((c != '\n') && (c != EOF))
-    {
-        B[i] = c;
-        i++;
-        if (i > buffer_size)
-        {
-            char* new_buffer = realloc(B, buffer_size*2*sizeof(char));
-            buffer_size = buffer_size * 2;
-            B = new_buffer;
-        }
-        c = getchar();
-    }
+    char** B = read_input();
+    printf("%s\n", B[0]);
+    printf("%s\n", B[1]);
+    printf("%s\n", B[2]);
     return 0;
 }
