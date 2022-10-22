@@ -41,7 +41,6 @@ char** read_input()
             buffer_size = buffer_size * 2;
             args = new_buffer;
         }
-        free(tstring);
     }
     return args;
 }
