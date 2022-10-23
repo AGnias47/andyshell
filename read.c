@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include "read.h"
 
+#define EXIT_FAILURE 1
+#define EXIT_SUCCESS 0
 #define STARTING_BUFFER_SIZE 1000
 
 char** read_input()
@@ -12,9 +14,10 @@ char** read_input()
     printf("%s@%s> ", getenv("USER"), getcwd(cwd, sizeof(cwd)));
     char c;
     char** args = malloc(buffer_size * sizeof(char*));
-    for (int i = 0; i < buffer_size; i++)
+    if (!args)
     {
-        args[i] = (char*)malloc((buffer_size * sizeof(char*))+1);  // ensure spot for ending NULL
+        fprintf(stderr, "Allocation Error\n");
+        exit(EXIT_FAILURE);
     }
     int i = 0;
     c = 1;
@@ -22,6 +25,11 @@ char** read_input()
     {
         c = getchar();
         char* tstring = malloc(buffer_size * sizeof(char));
+        if (!tstring)
+        {
+            fprintf(stderr, "Allocation Error\n");
+            exit(EXIT_FAILURE);
+        }
         int j = 0;
         while ((c != ' ') && (c != '\n') && (c != EOF) && (c != '\t'))
         {
@@ -31,6 +39,11 @@ char** read_input()
             {
                 buffer_size += STARTING_BUFFER_SIZE;
                 tstring = realloc(tstring, buffer_size*sizeof(char));
+                if (!tstring)
+                {
+                    fprintf(stderr, "Allocation Error\n");
+                    exit(EXIT_FAILURE);
+                }
             }
             c = getchar();
         }
@@ -40,6 +53,10 @@ char** read_input()
         {
             buffer_size += STARTING_BUFFER_SIZE;
             args = realloc(args, (buffer_size * sizeof(char*)));
+            {
+                fprintf(stderr, "Allocation Error\n");
+                exit(EXIT_FAILURE);
+            }
         }
     }
     args[i] = NULL;
