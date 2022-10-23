@@ -8,8 +8,10 @@
 
 #define true 1
 #define false 0
+#define EXIT_FAILURE 1
+#define EXIT_SUCCESS 0
 
-void process_command(char** args)
+int process_command(char** args)
 {
     pid_t pid = fork();
     if (pid == -1)
@@ -29,6 +31,7 @@ void process_command(char** args)
     {
         wait(NULL);
     }
+    return EXIT_SUCCESS;
 }
 
 
@@ -45,7 +48,7 @@ int main()
             printf("Exiting ANDYSHELL. Thanks for using!\n");
             exit(0);
         }
-        process_command(args);
+        int status = process_command(args);
         free(args);
     }
     return 0;

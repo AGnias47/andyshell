@@ -14,4 +14,7 @@
 
 void clear();
 
+int cd(char **args);
+int help(char **args);
+
 #endif
