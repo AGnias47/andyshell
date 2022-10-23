@@ -13,7 +13,7 @@
 #define READ_H
 
 /**
- * @brief Read shell input and return an array of strings
+ * @brief Read shell input and return an array of strings separated by spaces
  * 
  * @return char** 
  */

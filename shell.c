@@ -6,6 +6,9 @@
 #include "functions.h"
 #include "read.h"
 
+#define true 1
+#define false 0
+
 void process_command(char** args)
 {
     pid_t pid = fork();
@@ -34,13 +37,16 @@ int main()
     printf("ANDYSHELL\n");
     sleep(1);
     clear();
-    char** args = read_input();
-    if (strcmp(*args, "exit") == 0)
+    while (true)
     {
-        printf("Exiting ANDYSHELL. Thanks for using!\n");
-        exit(0);
+        char** args = read_input();
+        if (strcmp(*args, "exit") == 0)
+        {
+            printf("Exiting ANDYSHELL. Thanks for using!\n");
+            exit(0);
+        }
+        process_command(args);
+        free(args);
     }
-    process_command(args);
-    free(args);
     return 0;
 }
