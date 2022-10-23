@@ -19,4 +19,12 @@
  */
 char** read_input();
 
+/**
+ * @brief Determine if a piped command is being used
+ * 
+ * @param args Parsed tokens passed to shell
+ * @return int true or false value
+ */
+int is_piped(char** args);
+
 #endif

@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include "read.h"
 
+#define true 1
+#define false 0
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
 #define STARTING_BUFFER_SIZE 1000
@@ -65,4 +68,17 @@ char** read_input()
     }
     args[i] = NULL;
     return args;
+}
+
+int is_piped(char** args)
+{
+    int args_len = sizeof(args) / sizeof(char *);
+    for (int i = 0; i < args_len; i++)
+    {
+        if (strcmp(args[i], "|") == 0)
+        {
+            return true;
+        }
+    }
+    return false;
 }
