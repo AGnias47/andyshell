@@ -4,17 +4,18 @@
  * @brief Shell functions
  * @version 0.1
  * @date 2022-10-22
- * 
- * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-void clear();
 
-int cd(char **args);
-int help(char **args);
-
+int num_builtins();
+int andyshell_cd(char **args);
+int andyshell_help(char **args);
+int andyshell_clear(char **args);
+int andyshell_exit(char **args);
+extern char *BUILTINS[];
+extern int (*BUILTIN_FUNCS[])(char **);
 #endif

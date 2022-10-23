@@ -13,6 +13,17 @@
 
 int process_command(char** args)
 {
+    if (*args == NULL)
+    {
+        return EXIT_FAILURE;
+    }
+    for (int i = 0; i < num_builtins(); i++)
+    {
+        if (strcmp(args[0], BUILTINS[i]) == 0)
+        {
+            return (*BUILTIN_FUNCS[i])(args);
+        }
+    }
     pid_t pid = fork();
     if (pid == -1)
     {
@@ -29,7 +40,10 @@ int process_command(char** args)
     }
     else 
     {
-        wait(NULL);
+        pid_t parent_pid = getpid();
+        int status_info;
+        waitpid(pid, &status_info, 0);
+        return status_info;
     }
     return EXIT_SUCCESS;
 }
@@ -39,15 +53,10 @@ int main()
 {
     printf("ANDYSHELL\n");
     sleep(1);
-    clear();
+    andyshell_clear(NULL);
     while (true)
     {
         char** args = read_input();
-        if (strcmp(*args, "exit") == 0)
-        {
-            printf("Exiting ANDYSHELL. Thanks for using!\n");
-            exit(0);
-        }
         int status = process_command(args);
         free(args);
     }
