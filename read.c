@@ -13,7 +13,7 @@ char** read_input()
     char cwd[buffer_size];
     printf("%s@%s> ", getenv("USER"), getcwd(cwd, sizeof(cwd)));
     char c;
-    char** args = malloc(buffer_size * sizeof(char*));
+    char** args = malloc(buffer_size * sizeof(char*) + 1);  // Account for NULL terminator with additional byte 
     if (!args)
     {
         fprintf(stderr, "Allocation Error\n");
@@ -38,9 +38,11 @@ char** read_input()
             if (j > buffer_size)
             {
                 buffer_size += STARTING_BUFFER_SIZE;
+                char* tmp_tstring = tstring;  // Grab pointer to free if realloc fails
                 tstring = realloc(tstring, buffer_size*sizeof(char));
                 if (!tstring)
                 {
+                    free(tmp_tstring);
                     fprintf(stderr, "Allocation Error\n");
                     exit(EXIT_FAILURE);
                 }
@@ -52,8 +54,10 @@ char** read_input()
         if (i > buffer_size)
         {
             buffer_size += STARTING_BUFFER_SIZE;
+            char** tmp_args = args;  // grab pointer to free if realloc fails
             args = realloc(args, (buffer_size * sizeof(char*)));
             {
+                free(tmp_args);
                 fprintf(stderr, "Allocation Error\n");
                 exit(EXIT_FAILURE);
             }
