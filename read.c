@@ -72,13 +72,18 @@ char** read_input()
 
 int is_piped(char** args)
 {
-    int args_len = sizeof(args) / sizeof(char *);
-    for (int i = 0; i < args_len; i++)
+    int i = 0;
+    char* cmp_str = args[i];
+    while (cmp_str != NULL)
     {
-        if (strcmp(args[i], "|") == 0)
+        printf("%s\n", cmp_str);
+        if (strcmp(cmp_str, "|") == 0)
         {
             return true;
         }
+        i++;
+        cmp_str = args[i];
+
     }
     return false;
 }
