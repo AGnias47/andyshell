@@ -49,7 +49,7 @@ int execute_existing_shell_function(char** args)
     pid_t pid = fork();
     if (pid == -1)
     {
-        printf("Process creation failed\n");
+        fprintf(stderr, "Process creation failed\n");
         return EXIT_FAILURE;
     }
     else if (pid == 0)
@@ -57,10 +57,10 @@ int execute_existing_shell_function(char** args)
         int return_value = execvp(*args, args);
         if (return_value < 0)
         {
-            printf("Command '%s' either does not exist or was not successful\n", args[0]);
-            exit(1);
+            fprintf(stderr, "Command '%s' either does not exist or was not successful\n", args[0]);
+            exit(EXIT_FAILURE);
         }
-        return EXIT_SUCCESS;
+        exit(EXIT_SUCCESS);
     }
     else 
     {
