@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "functions.h"
 
 /**
@@ -36,6 +37,22 @@ int andyshell_exit(char **args)
 
 int andyshell_cd(char **args)
 {
+    if (args[1] == NULL)
+    {
+        fprintf(stderr, "cd requires an argument\n");
+    }
+    else if (args[2] != NULL)
+    {
+        fprintf(stderr, "Too many arguments provided to cd\n");
+    }
+    else
+    {
+        int result = chdir(args[1]);
+        if (result != 0)
+        {
+            fprintf(stderr, "%s does not exist\n", args[1]);
+        }
+    }
     return EXIT_SUCCESS;
 }
 
