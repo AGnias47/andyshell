@@ -80,9 +80,7 @@ int is_piped(char** args)
         {
             return true;
         }
-        i++;
-        cmp_str = args[i];
-
+        cmp_str = args[++i];
     }
     return false;
 }
