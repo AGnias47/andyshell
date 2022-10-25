@@ -11,5 +11,5 @@ int main()
     assert(is_piped(piped_text));
     char *not_piped_text[] = {"echo", "Hello", "World!", NULL};
     assert(!is_piped(not_piped_text));
-    printf("---Success! All tests passed---\n");
+    printf("Success! All tests passed\n");
 }

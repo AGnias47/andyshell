@@ -76,7 +76,6 @@ int is_piped(char** args)
     char* cmp_str = args[i];
     while (cmp_str != NULL)
     {
-        printf("%s\n", cmp_str);
         if (strcmp(cmp_str, "|") == 0)
         {
             return true;
