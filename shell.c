@@ -13,6 +13,7 @@
 
 int process_command(char** args);
 int execute_existing_shell_function(char** args);
+int pipe(char **args);
 
 int main()
 {
@@ -70,4 +71,15 @@ int execute_existing_shell_function(char** args)
         return status_info;
     }
     return EXIT_SUCCESS;
+}
+
+/**
+ * @brief Resources
+ * https://stackoverflow.com/questions/21914632/implementing-pipe-in-c
+ * @param args 
+ * @return int 
+ */
+int pipe(char **args)
+{
+    return 0;
 }
