@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include <sys/wait.h>
+
 #include <unistd.h>
 #include "functions.h"
 #include "read.h"
@@ -91,26 +93,28 @@ int andyshell_pipe(char **args)
     char **left_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
     char **right_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
     split_by_pipe(args, left_pipe, right_pipe);
+
     int pipefd[2];
     pipe(pipefd);
-    pid_t pid = fork();
-    if (pid == -1)
+    pid_t child_pid = fork();
+    if (child_pid == -1)
     {
         fprintf(stderr, "Process creation failed\n");
         return EXIT_FAILURE;
     }
-    else if (pid == 0)  // child process
+    else if (child_pid == 0)  // Child process
     {
-        dup2(pipefd[0], 0);
-        close(pipefd[1]);
-        return execvp(*args, args);
-
-    }
-    else  // parent process
-    {
-        dup2(pipefd[1], 1);
+        printf("Child process\n");
         close(pipefd[0]);
-        return execvp(*args, args);
+        dup2(pipefd[1], 1);
+        execvp(*left_pipe, left_pipe);
     }
-
+    else  // Parent process
+    {
+        printf("Parent process\n");
+        close(pipefd[1]);
+        dup2(pipefd[0], 0);
+        execvp(*right_pipe, right_pipe);
+    }
+    return EXIT_SUCCESS;
 }

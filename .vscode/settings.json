@@ -2,7 +2,8 @@
     "files.associations": {
         "functions.h": "c",
         "stdlib.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "unistd.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
