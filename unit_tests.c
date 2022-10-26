@@ -12,9 +12,8 @@ int main()
     assert(is_piped(piped_text));
     char *not_piped_text[] = {"echo", "Hello", "World!", NULL};
     assert(!is_piped(not_piped_text));
-    int buffer_size = 1000;
-    char **left = malloc(buffer_size * sizeof(char*) + 1);
-    char **right = malloc(buffer_size * sizeof(char*) + 1);
+    char **left = malloc(BUFFER_SIZE * sizeof(char*) + 1);
+    char **right = malloc(BUFFER_SIZE * sizeof(char*) + 1);
     split_by_pipe(piped_text, left, right);
     assert(left[0] == "cat");
     assert(left[1] == "file.txt");

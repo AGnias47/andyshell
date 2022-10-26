@@ -88,9 +88,9 @@ int execute_existing_shell_function(char** args)
  */
 int andyshell_pipe(char **args)
 {
-    char** left_pipe;
-    char** right_pipe;
-    split_by_pipe(left_pipe, right_pipe);
+    char **left_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
+    char **right_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
+    split_by_pipe(args, left_pipe, right_pipe);
     int pipefd[2];
     pipe(pipefd);
     pid_t pid = fork();

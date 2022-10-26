@@ -8,11 +8,10 @@
 #define false 0
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
-#define STARTING_BUFFER_SIZE 1000
 
 char** read_input()
 {
-    int buffer_size = STARTING_BUFFER_SIZE;
+    int buffer_size = BUFFER_SIZE;
     char cwd[buffer_size];
     printf("%s@%s> ", getenv("USER"), getcwd(cwd, sizeof(cwd)));
     char c;
@@ -40,7 +39,7 @@ char** read_input()
             j++;
             if (j > buffer_size)
             {
-                buffer_size += STARTING_BUFFER_SIZE;
+                buffer_size += BUFFER_SIZE;
                 char* tmp_tstring = tstring;  // Grab pointer to free if realloc fails
                 tstring = realloc(tstring, buffer_size*sizeof(char));
                 if (!tstring)
@@ -56,7 +55,7 @@ char** read_input()
         i++;
         if (i > buffer_size)
         {
-            buffer_size += STARTING_BUFFER_SIZE;
+            buffer_size += BUFFER_SIZE;
             char** tmp_args = args;  // grab pointer to free if realloc fails
             args = realloc(args, (buffer_size * sizeof(char*)));
             if (!args)
@@ -89,7 +88,7 @@ int is_piped(char** args)
 void split_by_pipe(char** args, char** left, char** right)
 {
     if (!args) return;
-    int buffer_size = STARTING_BUFFER_SIZE;
+    int buffer_size = BUFFER_SIZE;
     int i = 0;
     while (strcmp(args[i], "|") != 0)
     {
@@ -102,7 +101,7 @@ void split_by_pipe(char** args, char** left, char** right)
         }
         if (i > buffer_size)
         {
-            buffer_size += STARTING_BUFFER_SIZE;
+            buffer_size += BUFFER_SIZE;
             char** tmp_left = left;  // grab pointer to free if realloc fails
             left = realloc(left, (buffer_size * sizeof(char*)));
             if (!left)
@@ -123,7 +122,7 @@ void split_by_pipe(char** args, char** left, char** right)
         j++;
         if (j > buffer_size)
         {
-            buffer_size += STARTING_BUFFER_SIZE;
+            buffer_size += BUFFER_SIZE;
             char** tmp_right = right;
             right = realloc(right, (buffer_size * sizeof(char*)));
             if (!right)
