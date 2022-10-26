@@ -59,6 +59,7 @@ char** read_input()
             buffer_size += STARTING_BUFFER_SIZE;
             char** tmp_args = args;  // grab pointer to free if realloc fails
             args = realloc(args, (buffer_size * sizeof(char*)));
+            if (!args)
             {
                 free(tmp_args);
                 fprintf(stderr, "Allocation Error\n");
@@ -83,4 +84,55 @@ int is_piped(char** args)
         cmp_str = args[++i];
     }
     return false;
+}
+
+void split_by_pipe(char** args, char** left, char** right)
+{
+    if (!args) return;
+    int buffer_size = STARTING_BUFFER_SIZE;
+    int i = 0;
+    while (strcmp(args[i], "|") != 0)
+    {
+        left[i] = args[i];
+        i++;
+        if (args[i] == NULL)
+        {
+            fprintf(stderr, "Unpiped function sent to piped handler\n");
+            return;
+        }
+        if (i > buffer_size)
+        {
+            buffer_size += STARTING_BUFFER_SIZE;
+            char** tmp_left = left;  // grab pointer to free if realloc fails
+            left = realloc(left, (buffer_size * sizeof(char*)));
+            if (!left)
+            {
+                free(tmp_left);
+                fprintf(stderr, "Allocation Error\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+    left[i] = NULL;
+    i++;
+    int j = 0;
+    while (args[i] != NULL)
+    {
+        right[j] = args[i];
+        i++;
+        j++;
+        if (j > buffer_size)
+        {
+            buffer_size += STARTING_BUFFER_SIZE;
+            char** tmp_right = right;
+            right = realloc(right, (buffer_size * sizeof(char*)));
+            if (!right)
+            {
+                free(tmp_right);
+                fprintf(stderr, "Allocation Error\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+    right[j] = NULL;
 }

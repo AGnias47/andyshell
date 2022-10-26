@@ -13,7 +13,7 @@
 
 int process_command(char** args);
 int execute_existing_shell_function(char** args);
-int pipe(char **args);
+int andyshell_pipe(char **args);
 
 int main()
 {
@@ -35,6 +35,10 @@ int process_command(char** args)
     {
         return EXIT_FAILURE;
     }
+    if (is_piped(args))
+    {
+        return andyshell_pipe(args);
+    }
     for (int i = 0; i < num_builtins(); i++)
     {
         if (strcmp(args[0], BUILTINS[i]) == 0)
@@ -53,8 +57,9 @@ int execute_existing_shell_function(char** args)
         fprintf(stderr, "Process creation failed\n");
         return EXIT_FAILURE;
     }
-    else if (pid == 0)
+    else if (pid == 0)  // child process
     {
+        printf("Child Process\n");
         int return_value = execvp(*args, args);
         if (return_value < 0)
         {
@@ -63,8 +68,9 @@ int execute_existing_shell_function(char** args)
         }
         exit(EXIT_SUCCESS);
     }
-    else 
+    else  // parent process
     {
+        printf("Parent Process\n");
         pid_t parent_pid = getpid();
         int status_info;
         waitpid(pid, &status_info, 0);
@@ -75,11 +81,36 @@ int execute_existing_shell_function(char** args)
 
 /**
  * @brief Resources
- * https://stackoverflow.com/questions/21914632/implementing-pipe-in-c
+ * https://stackoverflow.com/questions/21914632/implementing-pipe-in-cclear
+ * 
  * @param args 
  * @return int 
  */
-int pipe(char **args)
+int andyshell_pipe(char **args)
 {
-    return 0;
+    char** left_pipe;
+    char** right_pipe;
+    split_by_pipe(left_pipe, right_pipe);
+    int pipefd[2];
+    pipe(pipefd);
+    pid_t pid = fork();
+    if (pid == -1)
+    {
+        fprintf(stderr, "Process creation failed\n");
+        return EXIT_FAILURE;
+    }
+    else if (pid == 0)  // child process
+    {
+        dup2(pipefd[0], 0);
+        close(pipefd[1]);
+        return execvp(*args, args);
+
+    }
+    else  // parent process
+    {
+        dup2(pipefd[1], 1);
+        close(pipefd[0]);
+        return execvp(*args, args);
+    }
+
 }

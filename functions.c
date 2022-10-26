@@ -58,6 +58,12 @@ int andyshell_cd(char **args)
 
 int andyshell_help(char **args)
 {
-    printf("Have fun\n");
+    printf("Welcome to ANDYSHELL\n");
+    printf("This should work very similarly to a bash shell.\n");
+    printf("I've implemented the following programs:\n");
+    for (int i = 0; i < num_builtins(); i++)
+    {
+        printf("- %s\n", BUILTINS[i]);
+    }
     return EXIT_SUCCESS;
 }

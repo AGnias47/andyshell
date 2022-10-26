@@ -27,4 +27,6 @@ char** read_input();
  */
 int is_piped(char** args);
 
+void split_by_pipe(char **args, char** left, char** right);
+
 #endif
