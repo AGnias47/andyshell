@@ -53,6 +53,7 @@ int process_command(char** args)
 
 int execute_existing_shell_function(char** args)
 {
+    pid_t wait_pid;
     pid_t pid = fork();
     if (pid == -1)
     {
@@ -62,21 +63,19 @@ int execute_existing_shell_function(char** args)
     else if (pid == 0)  // child process
     {
         printf("Child Process\n");
-        int return_value = execvp(*args, args);
-        if (return_value < 0)
+        if (execvp(*args, args) < 0)
         {
             fprintf(stderr, "Command '%s' either does not exist or was not successful\n", args[0]);
             exit(EXIT_FAILURE);
         }
-        exit(EXIT_SUCCESS);
     }
     else  // parent process
     {
-        printf("Parent Process\n");
-        pid_t parent_pid = getpid();
+
         int status_info;
-        waitpid(pid, &status_info, 0);
-        return status_info;
+        do {
+            wait_pid = waitpid(pid, &status_info, WUNTRACED);
+        } while (!WIFEXITED(status_info) && !WIFSIGNALED(status_info));
     }
     return EXIT_SUCCESS;
 }
