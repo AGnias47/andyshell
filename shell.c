@@ -106,6 +106,7 @@ int andyshell_pipe(char **args)
         printf("Child process\n");
         close(pipefd[0]);
         dup2(pipefd[1], 1);
+        // one of these is potentially empty; check for extra token
         execvp(*left_pipe, left_pipe);
     }
     else  // Parent process
