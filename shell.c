@@ -92,8 +92,9 @@ int execute_existing_shell_function(char** args)
  */
 int andyshell_pipe(char **left_pipe, char **right_pipe)
 {
-    assert(left_pipe[1] == NULL);
-    assert(right_pipe[1] == NULL);
+    // True when doing ls | wc
+    // assert(left_pipe[1] == NULL);
+    // assert(right_pipe[1] == NULL);
     int pipefd[2];
     pipe(pipefd);
     pid_t child_pid = fork();
