@@ -3,7 +3,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
+#include <assert.h>
 #include <unistd.h>
 #include "functions.h"
 #include "read.h"
@@ -15,12 +15,12 @@
 
 int process_command(char** args);
 int execute_existing_shell_function(char** args);
-int andyshell_pipe(char **args);
+int andyshell_pipe(char **left_pipe, char **right_pipe);
 
 int main()
 {
     printf("ANDYSHELL\n");
-    sleep(1);
+    // sleep(1);
     andyshell_clear(NULL);
     while (true)
     {
@@ -39,7 +39,11 @@ int process_command(char** args)
     }
     if (is_piped(args))
     {
-        return andyshell_pipe(args);
+        char **left_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
+        char **right_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
+        split_by_pipe(args, left_pipe, right_pipe);
+        int rv = andyshell_pipe(left_pipe, right_pipe);
+        return rv;
     }
     for (int i = 0; i < num_builtins(); i++)
     {
@@ -62,7 +66,6 @@ int execute_existing_shell_function(char** args)
     }
     else if (pid == 0)  // child process
     {
-        printf("Child Process\n");
         if (execvp(*args, args) < 0)
         {
             fprintf(stderr, "Command '%s' either does not exist or was not successful\n", args[0]);
@@ -87,12 +90,10 @@ int execute_existing_shell_function(char** args)
  * @param args 
  * @return int 
  */
-int andyshell_pipe(char **args)
+int andyshell_pipe(char **left_pipe, char **right_pipe)
 {
-    char **left_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
-    char **right_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
-    split_by_pipe(args, left_pipe, right_pipe);
-
+    assert(left_pipe[1] == NULL);
+    assert(right_pipe[1] == NULL);
     int pipefd[2];
     pipe(pipefd);
     pid_t child_pid = fork();
@@ -103,16 +104,23 @@ int andyshell_pipe(char **args)
     }
     else if (child_pid == 0)  // Child process
     {
-        dup2(pipefd[1], 1);
+        if (dup2(pipefd[1], STDOUT_FILENO) < 0)
+        {
+            fprintf(stderr, "Piping child process is broken\n");
+        }
+        close(pipefd[0]);
         execvp(*left_pipe, left_pipe);
         perror(*left_pipe);
     }
     else  // Parent process
     {
-        dup2(pipefd[0], 0);
+        if (dup2(pipefd[0], STDIN_FILENO) < 0)
+        {
+            fprintf(stderr, "Piping parent process is broken\n");
+        }
         close(pipefd[1]);
         execvp(*right_pipe, right_pipe);
         perror(*right_pipe);
     }
-    return EXIT_SUCCESS;
+    return 0;
 }
