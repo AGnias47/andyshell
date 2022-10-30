@@ -36,4 +36,23 @@ int is_piped(char **args);
  */
 void split_by_pipe(char **args, char **left, char **right);
 
+/**
+ * @brief Determine if a command contains a redirect
+ *
+ * @param args Parsed tokens passed to shell
+ * @return int true or false value
+ */
+int is_redirect(char **args);
+
+/**
+ * @brief Splits a redirect command into two sets of args, setting
+ * args to the left of the redirect to `left`, and args right of
+ * the redirect to `right`.
+ *
+ * @param args
+ * @param left
+ * @param right
+ */
+void split_by_redirect(char **args, char **left, char **right);
+
 #endif

@@ -140,3 +140,13 @@ void split_by_pipe(char** args, char** left, char** right)
 {
     _split_by_string(args, left, right, "|");
 }
+
+int is_redirect(char **args)
+{
+    return _contains_string(args, ">");
+}
+
+void split_by_redirect(char **args, char **left, char **right)
+{
+    _split_by_string(args, left, right, ">");
+}
