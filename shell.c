@@ -110,7 +110,7 @@ int andyshell_pipe(char **left_pipe, char **right_pipe)
         {
             fprintf(stderr, "Piping child process is broken\n");
         }
-        close(pipefd[0]);
+        close(pipefd[0]);  // Close read descriptor
         execvp(*left_pipe, left_pipe);
         perror(*left_pipe);
     }
@@ -120,7 +120,7 @@ int andyshell_pipe(char **left_pipe, char **right_pipe)
         {
             fprintf(stderr, "Piping parent process is broken\n");
         }
-        close(pipefd[1]);
+        close(pipefd[1]);  // Close write descriptor
         execvp(*right_pipe, right_pipe);
         perror(*right_pipe);
     }
