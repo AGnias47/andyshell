@@ -38,6 +38,25 @@ The shell's process is to read user input, create a subprocess for the user, and
   - Wait for the subprocess to end
   - Report status
 
+## Redirection
+
+### Output
+
+Use cases
+
+- cmd > out 
+- cmd >out
+- cmd 2>out
+- cmd 2> out
+- cmd >stdout_stderr.txt 2>&1
+
+### Input
+
+- cmd < input
+
+### Both
+
+- cmd < string > out
 
 ## Bonus improvements
 

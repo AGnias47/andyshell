@@ -56,6 +56,7 @@ shell
 test
 pipe
 lsh
+strtok_usage
 
 .vscode/*
 !.vscode/settings.json
