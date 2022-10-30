@@ -3,19 +3,8 @@
 #include <unistd.h>
 #include "functions.h"
 
-/**
- * @brief Clears the shell
- * @ref https://www.geeksforgeeks.org/making-linux-shell-c/
- *
- */
-
-#define EXIT_FAILURE 1
-#define EXIT_SUCCESS 0
-
-
 char *BUILTINS[] = {"cd", "help", "clear", "exit"};
 int (*BUILTIN_FUNCS[])(char **) = {&andyshell_cd, &andyshell_help, &andyshell_clear, &andyshell_exit};
-
 
 int num_builtins()
 {

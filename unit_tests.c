@@ -1,3 +1,14 @@
+/**
+ * @file unit_tests.c
+ * @author Andy Gnias (andy.gnias@temple.edu)
+ * @brief Unit tests. Not extensive; used to test tricky functions in isolation
+ * @version 0.1
+ * @date 2022-10-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>

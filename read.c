@@ -4,11 +4,6 @@
 #include <unistd.h>
 #include "read.h"
 
-#define true 1
-#define false 0
-#define EXIT_FAILURE 1
-#define EXIT_SUCCESS 0
-
 char** read_input()
 {
     int buffer_size = BUFFER_SIZE;

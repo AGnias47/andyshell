@@ -1,3 +1,12 @@
+/**
+ * @file shell.c
+ * @author Andy Gnias (andy.gnias@temple.edu)
+ * @brief Main function for running a C shell
+ * @version 0.1
+ * @date 2022-10-30
+ * 
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,20 +17,14 @@
 #include "functions.h"
 #include "read.h"
 
-#define true 1
-#define false 0
-#define EXIT_FAILURE 1
-#define EXIT_SUCCESS 0
-
 int process_command(char** args);
 int execute_existing_shell_function(char** args);
 int andyshell_pipe(char **left_pipe, char **right_pipe);
 
 int main()
 {
-    printf("ANDYSHELL\n");
-    // sleep(1);
     andyshell_clear(NULL);
+    printf("ANDYSHELL\n");
     while (true)
     {
         char** args = read_input();
@@ -42,8 +45,7 @@ int process_command(char** args)
         char **left_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
         char **right_pipe = malloc(BUFFER_SIZE * sizeof(char*) + 1);
         split_by_pipe(args, left_pipe, right_pipe);
-        int rv = andyshell_pipe(left_pipe, right_pipe);
-        return rv;
+        return andyshell_pipe(left_pipe, right_pipe);
     }
     for (int i = 0; i < num_builtins(); i++)
     {
@@ -57,8 +59,8 @@ int process_command(char** args)
 
 int execute_existing_shell_function(char** args)
 {
-    pid_t wait_pid;
-    pid_t pid = fork();
+    pid_t pid, wait_pid;
+    pid = fork();
     if (pid == -1)
     {
         fprintf(stderr, "Process creation failed\n");
@@ -74,7 +76,6 @@ int execute_existing_shell_function(char** args)
     }
     else  // parent process
     {
-
         int status_info;
         do {
             wait_pid = waitpid(pid, &status_info, WUNTRACED);

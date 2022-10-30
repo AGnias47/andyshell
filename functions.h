@@ -1,7 +1,7 @@
 /**
  * @file functions.h
  * @author Andy Gnias (andy.gnias@temple.edu)
- * @brief Shell functions
+ * @brief Custom implementation of shell functions
  * @version 0.1
  * @date 2022-10-22
  *
@@ -35,6 +35,7 @@ int andyshell_help(char **args);
 
 /**
  * @brief Clears the console output
+ * @ref https://www.geeksforgeeks.org/making-linux-shell-c/
  *
  * @param args
  * @return int

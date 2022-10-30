@@ -6,7 +6,6 @@
             "label": "C/C++: g++ build active file",
             "command": "/usr/bin/gcc",
             "args": [
-                "-g",
                 "shell.c",
                 "read.c",
                 "functions.c",

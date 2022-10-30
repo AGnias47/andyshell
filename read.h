@@ -5,8 +5,6 @@
  * @version 0.1
  * @date 2022-10-22
  * 
- * @copyright Copyright (c) 2022
- * 
  */
 
 #ifndef READ_H
@@ -14,19 +12,28 @@
 
 /**
  * @brief Read shell input and return an array of strings separated by spaces
- * 
- * @return char** 
+ *
+ * @return char**
  */
-char** read_input();
+char **read_input();
 
 /**
  * @brief Determine if a piped command is being used
- * 
+ *
  * @param args Parsed tokens passed to shell
  * @return int true or false value
  */
-int is_piped(char** args);
+int is_piped(char **args);
 
-void split_by_pipe(char **args, char** left, char** right);
+/**
+ * @brief Splits a piped command into two sets of args, setting
+ * args to the left of the pipe to `left`, and args right of
+ * the pipe to `right`.
+ *
+ * @param args
+ * @param left
+ * @param right
+ */
+void split_by_pipe(char **args, char **left, char **right);
 
 #endif
