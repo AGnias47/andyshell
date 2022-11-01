@@ -5,7 +5,6 @@
 #include "read.h"
 #include "string_helpers.h"
 
-
 char **read_input()
 {
     int buffer_size = BUFFER_SIZE;
@@ -86,6 +85,3 @@ void split_by_redirect(char **args, char **left, char *fname)
 {
     split_by_delimiter(args, left, fname, ">");
 }
-
-
-

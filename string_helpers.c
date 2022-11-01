@@ -27,7 +27,8 @@ int array_contains_char_as_substring(char **args, char s)
     char *cmp_str = args[i];
     while (cmp_str != NULL)
     {
-        for (int j = 0; j < strlen(cmp_str); j++) {
+        for (int j = 0; j < strlen(cmp_str); j++)
+        {
             if (cmp_str[j] == s)
             {
                 return true;
@@ -36,7 +37,6 @@ int array_contains_char_as_substring(char **args, char s)
         cmp_str = args[++i];
     }
     return false;
-    
 }
 
 void split_by_string(char **args, char **left, char **right, char *s)
@@ -103,7 +103,7 @@ void join_str_array(char **args, char *str_container)
             str_container = realloc(str_container, sizeof(str_container) + BUFFER_SIZE);
         }
         strcat(str_container, args[i]);
-        if (args[i+1] != NULL)
+        if (args[i + 1] != NULL)
         {
             strcat(str_container, " ");
         }
