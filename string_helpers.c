@@ -6,7 +6,7 @@
 
 #define TOK_DELIM " \t\r\n\a"
 
-int contains_string(char **args, char *s)
+int array_contains_string(char **args, char *s)
 {
     int i = 0;
     char *cmp_str = args[i];
@@ -21,7 +21,7 @@ int contains_string(char **args, char *s)
     return false;
 }
 
-int contains_char_as_substring(char **args, char s)
+int array_contains_char_as_substring(char **args, char s)
 {
     int i = 0;
     char *cmp_str = args[i];
@@ -110,13 +110,13 @@ void join_str_array(char **args, char *str_container)
     }
 }
 
-void split_strtok_method(char **args, char **left, char *fname)
+void split_by_delimiter(char **args, char **left, char *fname, char *delimiter)
 {
     char *str_args = malloc(sizeof(char) * BUFFER_SIZE);
     join_str_array(args, str_args);
     char *left_str, *right_str;
-    left_str = strtok(str_args, ">");
-    right_str = strtok(NULL, ">");
+    left_str = strtok(str_args, delimiter);
+    right_str = strtok(NULL, delimiter);
     int i = 0;
     left[i] = strtok(left_str, TOK_DELIM);
     while (left[i] != NULL)

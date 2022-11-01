@@ -69,7 +69,7 @@ char **read_input()
 
 int is_piped(char **args)
 {
-    return contains_string(args, "|");
+    return array_contains_string(args, "|");
 }
 
 void split_by_pipe(char **args, char **left, char **right)
@@ -79,12 +79,12 @@ void split_by_pipe(char **args, char **left, char **right)
 
 int is_redirect(char **args)
 {
-    return contains_char_as_substring(args, '>');
+    return array_contains_char_as_substring(args, '>');
 }
 
 void split_by_redirect(char **args, char **left, char *fname)
 {
-    split_strtok_method(args, left, fname);
+    split_by_delimiter(args, left, fname, ">");
 }
 
 

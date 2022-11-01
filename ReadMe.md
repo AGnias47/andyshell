@@ -42,10 +42,14 @@ The shell's process is to read user input, create a subprocess for the user, and
 
 ### Output
 
-Use cases
+#### Working
 
 - cmd > out 
 - cmd >out
+- cmd>out
+
+#### To be implemented
+
 - cmd 2>out
 - cmd 2> out
 - cmd >stdout_stderr.txt 2>&1

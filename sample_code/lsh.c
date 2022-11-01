@@ -8,6 +8,8 @@
 
   @brief        LSH (Libstephen SHell)
 
+  @ref          https://brennan.io/2015/01/16/write-a-shell-in-c/
+
 *******************************************************************************/
 
 #include <sys/wait.h>
