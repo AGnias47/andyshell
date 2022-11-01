@@ -70,11 +70,11 @@ int execute_existing_shell_function(char **args)
     }
     else if (pid == 0) // child process
     {
-        if (is_redirect(args))
+        if (is_output_redirect(args))
         {
             char **left = malloc(BUFFER_SIZE * sizeof(char *) + 1);
             char *fname = malloc(BUFFER_SIZE * sizeof(char));
-            split_by_redirect(args, left, fname);
+            split_by_output_redirect(args, left, fname);
             int i = 0;
             if (strcmp(left[array_length(left) - 1], "2") == 0)
                 close(STDERR_FILENO);
@@ -84,6 +84,20 @@ int execute_existing_shell_function(char **args)
             if (open_result < 0)
             {
                 fprintf(stderr, "Error creating file for writing with filename '%s'\n", fname);
+                exit(EXIT_FAILURE);
+            }
+            args = left;
+        }
+        else if (is_input_redirect(args))
+        {
+            char **left = malloc(BUFFER_SIZE * sizeof(char *) + 1);
+            char *fname = malloc(BUFFER_SIZE * sizeof(char));
+            split_by_input_redirect(args, left, fname);
+            close(STDIN_FILENO);
+            int open_result = open(fname, O_RDONLY);
+            if (open_result < 0)
+            {
+                fprintf(stderr, "Error opening file with filename '%s'\n", fname);
                 exit(EXIT_FAILURE);
             }
             args = left;

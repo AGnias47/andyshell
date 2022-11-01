@@ -42,7 +42,9 @@ void split_by_pipe(char **args, char **left, char **right);
  * @param args Parsed tokens passed to shell
  * @return int true or false value
  */
-int is_redirect(char **args);
+int is_output_redirect(char **args);
+
+int is_input_redirect(char **args);
 
 /**
  * @brief Splits a redirect command into two sets of args, setting
@@ -53,6 +55,8 @@ int is_redirect(char **args);
  * @param left
  * @param fname
  */
-void split_by_redirect(char **args, char **left, char *fname);
+void split_by_output_redirect(char **args, char **left, char *fname);
+
+void split_by_input_redirect(char **args, char **left, char *fname);
 
 #endif

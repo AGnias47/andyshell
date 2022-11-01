@@ -76,12 +76,22 @@ void split_by_pipe(char **args, char **left, char **right)
     split_by_string(args, left, right, "|");
 }
 
-int is_redirect(char **args)
+int is_output_redirect(char **args)
 {
     return array_contains_char_as_substring(args, '>');
 }
 
-void split_by_redirect(char **args, char **left, char *fname)
+int is_input_redirect(char **args)
+{
+    return array_contains_char_as_substring(args, '<');
+}
+
+void split_by_output_redirect(char **args, char **left, char *fname)
 {
     split_by_delimiter(args, left, fname, ">");
+}
+
+void split_by_input_redirect(char **args, char **left, char *fname)
+{
+    split_by_delimiter(args, left, fname, "<");
 }

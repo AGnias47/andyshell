@@ -52,15 +52,18 @@ The shell's process is to read user input, create a subprocess for the user, and
 
 #### To be implemented
 
-
-
 - cmd >stdout_stderr.txt 2>&1
 
 ### Input
 
+#### Working
+
 - cmd < input
+  - ex. sort < fname
 
 ### Both
+
+#### To be implemented
 
 - cmd < string > out
 
