@@ -79,7 +79,7 @@ void split_by_pipe(char **args, char **left, char **right)
 
 int is_redirect(char **args)
 {
-    return contains_string(args, ">");
+    return contains_char_as_substring(args, '>');
 }
 
 void split_by_redirect(char **args, char **left, char *fname)

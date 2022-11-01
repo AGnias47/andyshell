@@ -9,4 +9,6 @@ void join_str_array(char **args, char *str_container);
 
 void split_strtok_method(char **args, char **left, char *fname);
 
+int contains_char_as_substring(char **args, char s);
+
 #endif

@@ -21,6 +21,24 @@ int contains_string(char **args, char *s)
     return false;
 }
 
+int contains_char_as_substring(char **args, char s)
+{
+    int i = 0;
+    char *cmp_str = args[i];
+    while (cmp_str != NULL)
+    {
+        for (int j = 0; j < strlen(cmp_str); j++) {
+            if (cmp_str[j] == s)
+            {
+                return true;
+            }
+        }
+        cmp_str = args[++i];
+    }
+    return false;
+    
+}
+
 void split_by_string(char **args, char **left, char **right, char *s)
 {
     if (!args)
