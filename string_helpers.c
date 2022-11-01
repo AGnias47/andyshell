@@ -136,3 +136,11 @@ void split_by_delimiter(char **args, char **left, char *fname, char *delimiter)
         exit(EXIT_FAILURE);
     }
 }
+
+int array_length(char **array)
+{
+    int i = 0;
+    while (array[i] != NULL)
+        i++;
+    return i;
+}

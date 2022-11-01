@@ -11,4 +11,6 @@ void join_str_array(char **args, char *str_container);
 
 void split_by_delimiter(char **args, char **left, char *fname, char *delimiter);
 
+int array_length(char **array);
+
 #endif

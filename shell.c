@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include "functions.h"
 #include "read.h"
+#include "string_helpers.h"
 
 int process_command(char **args);
 int execute_existing_shell_function(char **args);
@@ -74,7 +75,11 @@ int execute_existing_shell_function(char **args)
             char **left = malloc(BUFFER_SIZE * sizeof(char *) + 1);
             char *fname = malloc(BUFFER_SIZE * sizeof(char));
             split_by_redirect(args, left, fname);
-            close(STDOUT_FILENO);
+            int i = 0;
+            if (strcmp(left[array_length(left) - 1], "2") == 0)
+                close(STDERR_FILENO);
+            else
+                close(STDOUT_FILENO);
             int open_result = open(fname, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
             if (open_result < 0)
             {
