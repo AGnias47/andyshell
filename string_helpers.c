@@ -126,6 +126,7 @@ void split_strtok_method(char **args, char **left, char *fname)
     }
 
     fname = strtok(right_str, TOK_DELIM);
+    printf("Its here though?%s\n", fname);
     if (fname == NULL)
     {
         fprintf(stderr, "No filename provided with redirect");
