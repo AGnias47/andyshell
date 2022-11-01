@@ -5,8 +5,8 @@ BUFFER_SIZE = 1000
 
 all: shell test
 
-shell: read.c shell.c functions.c
-	$(COMPILER) shell.c read.c functions.c \
+shell: functions.c read.c shell.c string_helpers.c
+	$(COMPILER) shell.c read.c string_helpers.c functions.c \
 	-DBUFFER_SIZE=$(BUFFER_SIZE) \
 	-DEXIT_FAILURE=1 \
 	-DEXIT_SUCCESS=0 \
@@ -15,7 +15,7 @@ shell: read.c shell.c functions.c
 	-o shell
 
 test: unit_tests.c read.c functions.c
-	$(COMPILER) unit_tests.c read.c functions.c \
+	$(COMPILER) unit_tests.c read.c string_helpers.c functions.c \
 	-DBUFFER_SIZE=$(BUFFER_SIZE) \
 	-DEXIT_FAILURE=1 \
 	-DEXIT_SUCCESS=0 \

@@ -3,80 +3,16 @@
 #include <string.h>
 #include <unistd.h>
 #include "read.h"
+#include "string_helpers.h"
 
-int _contains_string(char** args, char* s)
-{
-    int i = 0;
-    char* cmp_str = args[i];
-    while (cmp_str != NULL)
-    {
-        if (strcmp(cmp_str, s) == 0)
-        {
-            return true;
-        }
-        cmp_str = args[++i];
-    }
-    return false;
-}
 
-void _split_by_string(char** args, char** left, char** right, char *s)
-{
-    if (!args) return;
-    int buffer_size = BUFFER_SIZE;
-    int i = 0;
-    while (strcmp(args[i], s) != 0)
-    {
-        left[i] = args[i];
-        i++;
-        if (args[i] == NULL)
-        {
-            fprintf(stderr, "Unpiped function sent to piped handler\n");
-            return;
-        }
-        if (i > buffer_size)
-        {
-            buffer_size += BUFFER_SIZE;
-            char** tmp_left = left;  // grab pointer to free if realloc fails
-            left = realloc(left, (buffer_size * sizeof(char*)));
-            if (!left)
-            {
-                free(tmp_left);
-                fprintf(stderr, "Allocation Error\n");
-                exit(EXIT_FAILURE);
-            }
-        }
-    }
-    left[i] = NULL;
-    i++;
-    int j = 0;
-    while (args[i] != NULL)
-    {
-        right[j] = args[i];
-        i++;
-        j++;
-        if (j > buffer_size)
-        {
-            buffer_size += BUFFER_SIZE;
-            char** tmp_right = right;
-            right = realloc(right, (buffer_size * sizeof(char*)));
-            if (!right)
-            {
-                free(tmp_right);
-                fprintf(stderr, "Allocation Error\n");
-                exit(EXIT_FAILURE);
-            }
-        }
-    }
-    right[j] = NULL;
-}
-
-char** read_input()
+char **read_input()
 {
     int buffer_size = BUFFER_SIZE;
     char cwd[buffer_size];
     printf("%s@%s> ", getenv("USER"), getcwd(cwd, sizeof(cwd)));
     char c;
-    char** args = malloc(buffer_size * sizeof(char*) + 1);  // Account for NULL terminator with additional byte 
+    char **args = malloc(buffer_size * sizeof(char *) + 1); // Account for NULL terminator with additional byte
     if (!args)
     {
         fprintf(stderr, "Allocation Error\n");
@@ -87,7 +23,7 @@ char** read_input()
     while ((c != '\n') && (c != EOF))
     {
         c = getchar();
-        char* tstring = malloc(buffer_size * sizeof(char));
+        char *tstring = malloc(buffer_size * sizeof(char));
         if (!tstring)
         {
             fprintf(stderr, "Allocation Error\n");
@@ -101,8 +37,8 @@ char** read_input()
             if (j > buffer_size)
             {
                 buffer_size += BUFFER_SIZE;
-                char* tmp_tstring = tstring;  // Grab pointer to free if realloc fails
-                tstring = realloc(tstring, buffer_size*sizeof(char));
+                char *tmp_tstring = tstring; // Grab pointer to free if realloc fails
+                tstring = realloc(tstring, buffer_size * sizeof(char));
                 if (!tstring)
                 {
                     free(tmp_tstring);
@@ -117,8 +53,8 @@ char** read_input()
         if (i > buffer_size)
         {
             buffer_size += BUFFER_SIZE;
-            char** tmp_args = args;  // grab pointer to free if realloc fails
-            args = realloc(args, (buffer_size * sizeof(char*)));
+            char **tmp_args = args; // grab pointer to free if realloc fails
+            args = realloc(args, (buffer_size * sizeof(char *)));
             if (!args)
             {
                 free(tmp_args);
@@ -131,22 +67,25 @@ char** read_input()
     return args;
 }
 
-int is_piped(char** args)
+int is_piped(char **args)
 {
-    return _contains_string(args, "|");
+    return contains_string(args, "|");
 }
 
-void split_by_pipe(char** args, char** left, char** right)
+void split_by_pipe(char **args, char **left, char **right)
 {
-    _split_by_string(args, left, right, "|");
+    split_by_string(args, left, right, "|");
 }
 
 int is_redirect(char **args)
 {
-    return _contains_string(args, ">");
+    return contains_string(args, ">");
 }
 
-void split_by_redirect(char **args, char **left, char **right)
+void split_by_redirect(char **args, char **left, char *fname)
 {
-    _split_by_string(args, left, right, ">");
+    return split_strtok_method(args, left, fname);
 }
+
+
+

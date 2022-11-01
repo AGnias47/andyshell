@@ -51,8 +51,8 @@ int is_redirect(char **args);
  *
  * @param args
  * @param left
- * @param right
+ * @param fname
  */
-void split_by_redirect(char **args, char **left, char **right);
+void split_by_redirect(char **args, char **left, char *fname);
 
 #endif

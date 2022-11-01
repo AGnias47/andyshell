@@ -72,20 +72,10 @@ int execute_existing_shell_function(char** args)
         if (is_redirect(args))
         {
             char **left = malloc(BUFFER_SIZE * sizeof(char*) + 1);
-            char **right = malloc(BUFFER_SIZE * sizeof(char*) + 1);
-            split_by_redirect(args, left, right);
-            if (right[0] == NULL)
-            {
-                fprintf(stderr, "No filename provided with redirect");
-                return EXIT_FAILURE;
-            }
-            if (right[1] != NULL)
-            {
-                fprintf(stderr, "Too many args provided in redirect\n");
-                return EXIT_FAILURE;
-            }
+            char *fname = malloc(BUFFER_SIZE * sizeof(char));
+            split_by_redirect(args, left, fname);
             close(STDOUT_FILENO);
-            int open_result = open(*right, O_WRONLY | O_CREAT | O_TRUNC);
+            int open_result = open(fname, O_WRONLY | O_CREAT | O_TRUNC);
             args = left;
         }
         if (execvp(*args, args) < 0)
