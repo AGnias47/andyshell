@@ -118,15 +118,12 @@ void split_strtok_method(char **args, char **left, char *fname)
     left_str = strtok(str_args, ">");
     right_str = strtok(NULL, ">");
     int i = 0;
-    // C strip strings
     left[i] = strtok(left_str, TOK_DELIM);
     while (left[i] != NULL)
     {
         left[++i] = strtok(NULL, TOK_DELIM);
     }
-
     char *new_fname = strtok(right_str, TOK_DELIM);
-    printf("Its here though?%s\n", new_fname);
     strcpy(fname, new_fname);
     if (fname == NULL)
     {

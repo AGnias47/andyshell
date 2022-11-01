@@ -85,7 +85,6 @@ int is_redirect(char **args)
 void split_by_redirect(char **args, char **left, char *fname)
 {
     split_strtok_method(args, left, fname);
-    printf("Its here though?%s\n", left[0]);
 }
 
 

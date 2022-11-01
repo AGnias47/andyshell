@@ -74,7 +74,6 @@ int execute_existing_shell_function(char** args)
             char **left = malloc(BUFFER_SIZE * sizeof(char*) + 1);
             char *fname = malloc(BUFFER_SIZE * sizeof(char));
             split_by_redirect(args, left, fname);
-            printf("FNAME%sEND\n", fname);
             close(STDOUT_FILENO);
             int open_result = open(fname, O_WRONLY | O_CREAT | O_TRUNC);
             args = left;
