@@ -33,10 +33,10 @@ int main()
     assert(right[0] == "grep");
     assert(right[1] == "Philadelphia");
     assert(right[2] == NULL);
-    assert(!contains_char_as_substring(piped_text, '>'));
+    assert(!array_contains_char_as_substring(piped_text, '>'));
     char *redirect_text[] = {"whoami", ">", "outfile", NULL};
-    assert(contains_char_as_substring(redirect_text, '>'));
+    assert(array_contains_char_as_substring(redirect_text, '>'));
     char *redirect_text_2[] = {"whoami", ">outfile", NULL};
-    assert(contains_char_as_substring(redirect_text_2, '>'));
+    assert(array_contains_char_as_substring(redirect_text_2, '>'));
     printf("Success! All tests passed\n");
 }
