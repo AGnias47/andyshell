@@ -46,6 +46,8 @@ int is_output_redirect(char **args);
 
 int is_input_redirect(char **args);
 
+int is_append_redirect(char **args);
+
 /**
  * @brief Splits a redirect command into two sets of args, setting
  * args to the left of the redirect to `left`, and args right of
@@ -58,5 +60,7 @@ int is_input_redirect(char **args);
 void split_by_output_redirect(char **args, char **left, char *fname);
 
 void split_by_input_redirect(char **args, char **left, char *fname);
+
+void split_by_append_redirect(char **args, char **left, char *fname);
 
 #endif

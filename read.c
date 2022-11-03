@@ -86,6 +86,26 @@ int is_input_redirect(char **args)
     return array_contains_char_as_substring(args, '<');
 }
 
+int is_append_redirect(char **args)
+{
+    char s = '>';
+    int i = 0;
+    char *cmp_str = args[i];
+    while (cmp_str != NULL)
+    {
+        for (int j = 0; j < strlen(cmp_str); j++)
+        {
+            if (cmp_str[j] == s)
+            {
+                if (cmp_str[++j] == s)
+                    return true;
+            }
+        }
+        cmp_str = args[++i];
+    }
+    return false;
+}
+
 void split_by_output_redirect(char **args, char **left, char *fname)
 {
     split_by_delimiter(args, left, fname, ">");
@@ -94,4 +114,9 @@ void split_by_output_redirect(char **args, char **left, char *fname)
 void split_by_input_redirect(char **args, char **left, char *fname)
 {
     split_by_delimiter(args, left, fname, "<");
+}
+
+void split_by_append_redirect(char **args, char **left, char *fname)
+{
+    split_by_delimiter(args, left, fname, ">>");
 }

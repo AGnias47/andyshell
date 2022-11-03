@@ -42,31 +42,24 @@ The shell's process is to read user input, create a subprocess for the user, and
 
 ### Output
 
-#### Working
-
 - cmd > out 
 - cmd >out
 - cmd>out
 - cmd 2>out
 - cmd 2> out
+- cmd >> out 
+- cmd >>out
+- cmd>>out
+- cmd 2>>out
+- cmd 2>> out
 
-#### To be implemented
-
-- cmd >stdout_stderr.txt 2>&1
 
 ### Input
 
-#### Working
-
 - cmd < input
-  - ex. sort < fname
-
-### Both
-
-#### To be implemented
-
-- cmd < string > out
 
 ## Bonus improvements
 
+- cmd < string > out
+- cmd >stdout_stderr.txt 2>&1
 - Quote handling; ex. `git commit -m "Commit message"` should work

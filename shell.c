@@ -70,11 +70,32 @@ int execute_existing_shell_function(char **args)
     }
     else if (pid == 0) // child process
     {
-        if (is_output_redirect(args))
+        char **left = malloc(BUFFER_SIZE * sizeof(char *) + 1);
+        char *fname = malloc(BUFFER_SIZE * sizeof(char));
+        if (is_append_redirect(args))
         {
-            char **left = malloc(BUFFER_SIZE * sizeof(char *) + 1);
-            char *fname = malloc(BUFFER_SIZE * sizeof(char));
+            split_by_append_redirect(args, left, fname);
+            if (fname == NULL)
+                fprintf(stderr, "No filename specified for redirect\n");
+            int i = 0;
+            if (strcmp(left[array_length(left) - 1], "2") == 0)
+                close(STDERR_FILENO);
+            else
+                close(STDOUT_FILENO);
+
+            int open_result = open(fname, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+            if (open_result < 0)
+            {
+                fprintf(stderr, "Error creating file for writing with filename '%s'\n", fname);
+                exit(EXIT_FAILURE);
+            }
+            args = left;
+        }
+        else if (is_output_redirect(args))
+        {
             split_by_output_redirect(args, left, fname);
+            if (fname == NULL)
+                fprintf(stderr, "No filename specified for redirect\n");
             int i = 0;
             if (strcmp(left[array_length(left) - 1], "2") == 0)
                 close(STDERR_FILENO);
@@ -90,8 +111,6 @@ int execute_existing_shell_function(char **args)
         }
         else if (is_input_redirect(args))
         {
-            char **left = malloc(BUFFER_SIZE * sizeof(char *) + 1);
-            char *fname = malloc(BUFFER_SIZE * sizeof(char));
             split_by_input_redirect(args, left, fname);
             close(STDIN_FILENO);
             int open_result = open(fname, O_RDONLY);
