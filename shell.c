@@ -152,7 +152,8 @@ int andyshell_pipe(char **left_pipe, char **right_pipe)
     // assert(right_pipe[1] == NULL);
     int pipefd[2];
     pipe(pipefd);
-    pid_t child_pid = fork();
+    pid_t child_pid, parent_pid;
+    child_pid = fork();
     if (child_pid == -1)
     {
         fprintf(stderr, "Process creation failed\n");
@@ -165,19 +166,41 @@ int andyshell_pipe(char **left_pipe, char **right_pipe)
             fprintf(stderr, "Piping child process is broken\n");
         }
         close(pipefd[0]); // Close read descriptor
-        close(pipefd[1]); // Close write descriptor
         execvp(*left_pipe, left_pipe);
         perror(*left_pipe);
     }
     else // Parent process
     {
-        if (dup2(pipefd[0], STDIN_FILENO) < 0)
+        parent_pid = fork();
+        if (parent_pid < 0)
         {
             fprintf(stderr, "Piping parent process is broken\n");
+            return EXIT_FAILURE;
         }
-        close(pipefd[1]); // Close write descriptor
-        execvp(*right_pipe, right_pipe);
-        perror(*right_pipe);
+        else if (parent_pid == 0)
+        {
+            if (dup2(pipefd[0], STDIN_FILENO) < 0)
+            {
+                fprintf(stderr, "Piping parent process is broken\n");
+            }
+            close(pipefd[1]); // Close write descriptor
+            execvp(*right_pipe, right_pipe);
+            perror(*right_pipe);
+        }
+        else
+        {
+            close(pipefd[1]);
+            int child_status;
+            do
+            {
+                waitpid(child_pid, &child_status, WUNTRACED);
+            } while (!WIFEXITED(child_status) && !WIFSIGNALED(child_status));
+            int parent_status;
+            do
+            {
+                waitpid(parent_pid, &parent_status, WUNTRACED);
+            } while (!WIFEXITED(parent_status) && !WIFSIGNALED(parent_status));
+        }
     }
     return 0;
 }
