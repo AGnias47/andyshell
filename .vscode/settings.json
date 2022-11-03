@@ -4,7 +4,8 @@
         "stdlib.h": "c",
         "stddef.h": "c",
         "unistd.h": "c",
-        "environments.h": "c"
+        "environments.h": "c",
+        "string_helpers.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
