@@ -1,19 +1,17 @@
 # andyshell
 
-## Background
+Andyshell is a bash shell implemented in C.
 
-An OS is a collection of services, including:
+## Functionality
 
-- memory management
-- process management
-- file management
-- network management
-
-Three primary APIs exist for every running program to communicate and sync with other programs:
-
-- System calls
-- Interprocess Communication calls (IPC)
-- Interprocess Computation calls
+- Runs custom implementation of
+  - cd
+  - help
+  - clear
+  - exit
+- Runs any available bash function on the host OS
+- Allows for input, output, and appending redirects
+- Can redirect STDOUT or STDERR to be written / appended to a file
 
 ## Objective
 
