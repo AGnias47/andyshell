@@ -37,19 +37,31 @@ int is_piped(char **args);
 void split_by_pipe(char **args, char **left, char **right);
 
 /**
- * @brief Determine if a command contains a redirect
+ * @brief Determine if a command contains an output redirect
  *
  * @param args Parsed tokens passed to shell
  * @return int true or false value
  */
 int is_output_redirect(char **args);
 
+/**
+ * @brief Determine if a command contains an input redirect
+ *
+ * @param args Parsed tokens passed to shell
+ * @return int true or false value
+ */
 int is_input_redirect(char **args);
 
+/**
+ * @brief Determine if a command contains an append redirect
+ *
+ * @param args Parsed tokens passed to shell
+ * @return int true or false value
+ */
 int is_append_redirect(char **args);
 
 /**
- * @brief Splits a redirect command into two sets of args, setting
+ * @brief Splits an output redirect command into two sets of args, setting
  * args to the left of the redirect to `left`, and args right of
  * the redirect to `right`.
  *
@@ -59,8 +71,26 @@ int is_append_redirect(char **args);
  */
 void split_by_output_redirect(char **args, char **left, char *fname);
 
+/**
+ * @brief Splits an input redirect command into two sets of args, setting
+ * args to the left of the redirect to `left`, and args right of
+ * the redirect to `right`.
+ *
+ * @param args
+ * @param left
+ * @param fname
+ */
 void split_by_input_redirect(char **args, char **left, char *fname);
 
+/**
+ * @brief Splits an append redirect command into two sets of args, setting
+ * args to the left of the redirect to `left`, and args right of
+ * the redirect to `right`.
+ *
+ * @param args
+ * @param left
+ * @param fname
+ */
 void split_by_append_redirect(char **args, char **left, char *fname);
 
 #endif
