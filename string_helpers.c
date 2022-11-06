@@ -13,9 +13,7 @@ int array_contains_string(char **args, char *s)
     while (cmp_str != NULL)
     {
         if (strcmp(cmp_str, s) == 0)
-        {
             return true;
-        }
         cmp_str = args[++i];
     }
     return false;
@@ -30,9 +28,7 @@ int array_contains_char_as_substring(char **args, char s)
         for (int j = 0; j < strlen(cmp_str); j++)
         {
             if (cmp_str[j] == s)
-            {
                 return true;
-            }
         }
         cmp_str = args[++i];
     }

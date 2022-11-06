@@ -147,9 +147,6 @@ int execute_existing_shell_function(char **args)
  */
 int andyshell_pipe(char **left_pipe, char **right_pipe)
 {
-    // True when doing ls | wc
-    // assert(left_pipe[1] == NULL);
-    // assert(right_pipe[1] == NULL);
     int pipefd[2];
     pipe(pipefd);
     pid_t child_pid, parent_pid;
@@ -189,7 +186,7 @@ int andyshell_pipe(char **left_pipe, char **right_pipe)
         }
         else
         {
-            close(pipefd[1]);
+            close(pipefd[1]); // Close write descriptor
             int child_status;
             do
             {
